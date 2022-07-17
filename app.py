@@ -11,7 +11,7 @@ mongo = PyMongo(app)
 @app.route("/")
 def index():
    mars = mongo.db.mars.find_one()
-   return render_template("index.html", mars=mars)
+   return render_template("index_Module.html", mars=mars)
 
 @app.route("/scrape")
 def scrape():
@@ -19,6 +19,11 @@ def scrape():
    mars_data = scraping.scrape_all()
    mars.update_one({}, {"$set":mars_data}, upsert=True)
    return redirect('/', code=302)
+
+@app.route("/mars_hemispheres")
+def mars_hemispheres():
+   mars = mongo.db.mars.find_one()
+   return render_template("index_Challenge.html", mars=mars)
 
 if __name__ == "__main__":
    app.run()
